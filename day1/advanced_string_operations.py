@@ -11,6 +11,9 @@ def print_5s():
     sssss_bytes = sssss.encode('utf-8')
     print(f"{len(sssss_bytes) = }")
     print(f"{sssss_bytes = }")
+    my_name = "My name is Paul"
+    print(f"{my_name = }")
+    print(f"{my_name.encode('utf-8') = }")
 
 
 def working_with_bytes():
@@ -19,6 +22,7 @@ def working_with_bytes():
     print(f"{len(b_empty) = }")
     b_random = bytes(random.choices(range(256), k=10))
     print(f"{b_random = }")
+    print(f"{ord(b'G') = }")
     b_chars = b'the moon is shining so bright'
     print(f"{b_chars = }")
     # not all byte sequences are encodeable
@@ -57,7 +61,7 @@ def string_search(word, replace_with='fishcake'):
     print(f"{sentence.replace(word, replace_with)}")
 
 
-def string_is_properties(string):
+def string_is_properties(string: str):
     # isalnum, isalpha, isprintable, isspace
     print(f"{string.isalnum() = }")
     print(f"{string.isalpha() = }")
@@ -94,10 +98,10 @@ def string_method_formatting(string: str):
     width, height = shutil.get_terminal_size()
     print(f"terminal dimensions (w,h): {width, height}")
     # justification: rjust, center, ljust, zfill
-    print(string.rjust80)
-    print(string.center80)
-    print(string.ljust80)
-    print(string.zfill80)
+    print(string.rjust(width))
+    print(string.center(width))
+    print(string.ljust(width))
+    print(string.zfill(width))
     # case: capitalize, swapcase, upper, lower, title
     print(f"{string.capitalize() = }")
     print(f"{string.swapcase() = }")
@@ -167,7 +171,7 @@ def main():
     # string_is_properties(input())
     # slicing_and_dicing_strings(input())
     # string_method_formatting(input())
-    # string_format_minilanguage()
+    string_format_minilanguage()
     return 0
 
 

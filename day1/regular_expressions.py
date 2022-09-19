@@ -93,7 +93,7 @@ def quantifiers():
     regex = r".*?\d+"
     result = re.search(regex, string)  # *?, +?, ?? are non-greedy
     print(f"{regex:<30}: {result.group()}")
-    regex = r"\d{4}"
+    regex = r"\d{2}"
     result = re.search(regex, string)  # specify the size of the match
     print(f"{regex:<30}: {result.group()}")
 
@@ -159,13 +159,13 @@ def control_flags():
 
 
 def main():
-    get_match_object()
-    character_classes()
-    positional_anchors()
+    # get_match_object()
+    # character_classes()
+    # positional_anchors()
     quantifiers()
-    custom_classes_and_escaping_sequences()
-    grouping_and_capturing_regexes()
-    control_flags()
+    # custom_classes_and_escaping_sequences()
+    # grouping_and_capturing_regexes()
+    # control_flags()
     return 0
 
 

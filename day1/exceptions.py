@@ -14,12 +14,18 @@ def main():
     except ValueError:
         print(f"Invalid value for a; defaulting to a=1...", file=sys.stderr)
         a = 1
-    r = float(input("r: "))
+    r = str(input("r: "))
+    try:
+        assert isinstance(r, float)
+        # assert type(r) == float
+    except AssertionError:
+        raise ValueError("invalid input for r")
     n = int(input("n: "))
     try:
         assert n >= 1
     except AssertionError:
         raise ValueError(f"Invalid value for n; default to n=10...")
+        return 1
     else:
         print(f"s_{n} = {calculate_geometric_series(a, r, n=n)}")
     return 0
