@@ -208,6 +208,16 @@ def print_table():
     print("=" * 81)  # a line
 
 
+def formatting_minilanguage():
+    width = 16
+    number = 33
+    float_number = 3.8334293890283
+    print(f"{number = }")
+    print(f"{number:<30}{float_number:>40}{'some_string':^27}nothing")
+    print(f"{number:<30}{float_number:>40.4f}{'some_string':^27}nothing")
+    print(f"{number:<{width}}{float_number:>{width}.4f}{'some_string':^{width}}nothing")
+
+
 def main():
     # print_5s()
     # working_with_bytes()
@@ -217,11 +227,12 @@ def main():
     # slicing_and_dicing_strings(input())
     # string_method_formatting(input())
     # string_format_minilanguage()
-    line = "violet_blue|convert|red|6.3327|9.4423|113.3428|7.3298|5.3353|9.9283|over|all"
-    print(f"{line = }")
-    distance = calculate_distance(line)
-    print(f"{distance = }")
+    # line = "violet_blue|convert|red|6.3327|9.4423|113.3428|7.3298|5.3353|9.9283|over|all"
+    # print(f"{line = }")
+    # distance = calculate_distance(line)
+    # print(f"{distance = }")
     print_table()
+    # formatting_minilanguage()
     return 0
 
 
