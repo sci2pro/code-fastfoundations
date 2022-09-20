@@ -5,13 +5,13 @@ def working_with_gzip_files():
     import gzip
     # read
     with gzip.open(
-            "/Users/paulkorir/PycharmProjects/code-fastfoundations/day2/dir1/dir3/dir4/our_deepest_fear.txt.gz"
+            "dir1/dir3/dir4/our_deepest_fear.txt.gz"
     ) as g:
         text = g.read()
         print(type(text))
     # write
     with gzip.open(
-            "/Users/paulkorir/PycharmProjects/code-fastfoundations/day2/dir1/dir3/dir4/youth.txt.gz",
+            "dir1/dir3/dir4/youth.txt.gz",
             'wb'
     ) as g:  # a binary file
         # g.write("It takes a very long time to become young.\n") # TypeError
@@ -19,7 +19,7 @@ def working_with_gzip_files():
         g.write("It takes a very long time to become young.\n".encode('utf-8'))
         g.write("― Pablo Picasso\n".encode('utf-8'))
     with gzip.open(
-            "/Users/paulkorir/PycharmProjects/code-fastfoundations/day2/dir1/dir3/dir4/youth.txt.gz"
+            "dir1/dir3/dir4/youth.txt.gz"
     ) as g:
         print(g.read())
 
@@ -77,10 +77,10 @@ def compressing_binary_data():
 
 
 def main():
-    # working_with_gzip_files()
+    working_with_gzip_files()
     # read_json_file()
-    working_with_binary_data()
-    compressing_binary_data()
+    # working_with_binary_data()
+    # compressing_binary_data()
     return 0
 
 

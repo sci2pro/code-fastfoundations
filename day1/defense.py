@@ -18,7 +18,7 @@ def main():
     try:
         n = int(input("n: "))
     except ValueError:
-        print(f"Invalid valud for n; defaulting to n=10...", file=sys.stderr)
+        print(f"Invalid value for n; defaulting to n=10...", file=sys.stderr)
     try:
         assert n >= 1
     except AssertionError:

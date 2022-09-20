@@ -27,9 +27,16 @@ def importing_packages():
     print(f"L_{n} = {lucas_module.calculate_lucas_numbers(n)}")
 
 
+def task():
+    from pkg1.new_pkg import calc
+    discriminant = calc.calculate_discriminant(5, 7, 12)
+    print(f"{discriminant = }")
+
+
 def main():
     # importing_modules()
-    importing_packages()
+    # importing_packages()
+    task()
     return 0
 
 

@@ -55,7 +55,7 @@ def parsing_text_files():
 
 def main():
     # writing_to_text_files()
-    # creating_and_modifying_paths()
+    creating_and_modifying_paths()
     # parsing_text_files()
     return 0
 

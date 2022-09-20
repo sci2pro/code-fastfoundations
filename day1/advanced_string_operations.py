@@ -159,6 +159,55 @@ def string_format_minilanguage():
 """)
 
 
+def calculate_distance(line, split_char="|"):
+    import math  # for math.sqrt
+    split_line = line.split(split_char)  # we provide this as a keyword argument so we are free to change it in future
+    x1 = float(split_line[3])
+    y1 = float(split_line[4])
+    z1 = float(split_line[5])
+    x2 = float(split_line[6])
+    y2 = float(split_line[7])
+    z2 = float(split_line[8])
+    # instead of the above size lines we can use map with a slice
+    # map(float, split_line[3:9]
+    # start at index 3 and stop at index 9
+    # this is a map object; we can make a list out of it
+    # list(map(float, split_line[3:9]
+    # finally, we can unpack the results into individual variables
+    # x1, y1, z1, x2, y2, z2 = list(map(float, split_lines[3:9]))
+    # the distance between two points is given by Pythagoras's theoreom
+    # D = sqrt((x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2)
+    distance = math.sqrt(
+        (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2,
+    )
+    return distance
+
+
+def print_table():
+    items = {
+        "STAEDTLER 351 WP6 Lumocolour": [4, 7.50],  # quantity, unit price
+        "Trodat Classmates Magnetic Eraser": [16, 4.85]
+    }
+    # print the table header
+    # first column is 40 chars wide and left aligned (<)
+    # second column is 6 chars wide and centered (^)
+    # second column is 15 chars wide and right aligned (>)
+    # second column is 20 chars wide and right aligned (>)
+    print("-" * 81)  # a line
+    print(f"{'Item':<40}{'Qty':^6}{'Unit price (€)':>15}{'Total price (€)':>20}")
+    print("-" * 81)  # a line
+    overall_total = 0  # we will accumulate the total
+    for item, values in items.items():  # item is the name; values is a list (quantity, unit price)
+        # unpack the quantity and unit price
+        quantity, unit_price = values
+        unit_total = quantity * unit_price
+        overall_total += unit_total
+        print(f"{item:<40}{quantity:^6}{unit_price:>15}{unit_total:>20}")
+    print("=" * 81)  # a line
+    print(f"{'TOTAL':<40}{'':^6}{'':>15}{overall_total:>20}")
+    print("=" * 81)  # a line
+
+
 def main():
     # print_5s()
     # working_with_bytes()
@@ -168,6 +217,11 @@ def main():
     # slicing_and_dicing_strings(input())
     # string_method_formatting(input())
     # string_format_minilanguage()
+    line = "violet_blue|convert|red|6.3327|9.4423|113.3428|7.3298|5.3353|9.9283|over|all"
+    print(f"{line = }")
+    distance = calculate_distance(line)
+    print(f"{distance = }")
+    print_table()
     return 0
 
 

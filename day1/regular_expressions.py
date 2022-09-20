@@ -157,15 +157,51 @@ def control_flags():
     result = re.search(regex, string, re.DOTALL | re.MULTILINE)
     print(f"{regex:<30}: {result.group()}")
 
+def task1():
+    # the first six letter word
+    print(f"the first six letter word:")
+    regex = r"\s\w{6}\s"
+    result = re.search(regex, string)
+    print(f"{regex:<30}: '{result.group().strip()}'")
+    print(f"the following exact sequence: four, seven, three letter words:")
+    regex = r"\s\w{4}\s\w{7}\s\w{3}\s"
+    result = re.search(regex, string)
+    print(f"{regex:<30}: '{result.group().strip()}'")
+    print(f"a sequence of three letters followed by non-white space:")
+    regex = r"\w{3}\S"
+    result = re.search(regex, string)
+    print(f"{regex:<30}: '{result.group()}'")
+
+def task2():
+    print(f"This matches Jonathan:")
+    regex = r"[-+\w\d]{6,}"
+    result = re.search(regex, string)
+    print(f"{regex:<30}: '{result.group()}'")
+    print(f"This matches Jonathan's:")
+    regex = r"[-+'r\w\d]{6,}"
+    result = re.search(regex, string)
+    print(f"{regex:<30}: '{result.group()}'")
+    print(f"To capture 'Jonathan's' and the phone number:")
+    # the name and number are separated by other characters; we must use non-greedy quantifiers
+    # to capture we use (?P<variable><REGEX>) for this
+    #
+    regex = r"(?P<name>[-+'r\w\d]{6,}).*?(?P<number>[-+\d]+)"
+    result = re.search(regex, string)
+    print(f"{regex:<30}: '{result.group('name')}'")
+    print(f"{regex:<30}: '{result.group('number')}'")
+
+
 
 def main():
-    get_match_object()
-    character_classes()
-    positional_anchors()
-    quantifiers()
-    custom_classes_and_escaping_sequences()
-    grouping_and_capturing_regexes()
-    control_flags()
+    # get_match_object()
+    # character_classes()
+    # positional_anchors()
+    # quantifiers()
+    # custom_classes_and_escaping_sequences()
+    # grouping_and_capturing_regexes()
+    # control_flags()
+    task1()
+    task2()
     return 0
 
 
