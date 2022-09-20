@@ -18,7 +18,7 @@ def writing_to_text_files():
         "― Veronica Roth, Allegiant",
     ]
     with open("power_quote.txt", 'w') as f:
-        f.writelines(lines_of_text)
+        f.writelines(map(lambda s: s + '\n', lines_of_text))
     with open("power_quote.txt") as f:
         print(f.readlines())
 
@@ -53,10 +53,29 @@ def parsing_text_files():
             print(cols)
 
 
+def file_with_random_text():
+    import pathlib
+    my_path = pathlib.Path("dir1/dir3/dir5/some_random_random.txt")
+    my_path.parent.mkdir(exist_ok=True)
+    with my_path.open('w') as f:
+        f.write('some random text in a random file\n')
+
+
+def parse_gtf_file():
+    import re
+    with open("Homo_sapiens.GRCh38.107.abinitio.gtf") as f:
+        for row in f:
+            if not re.search("^\s*#", row):
+                cols = row.strip().split("\t")
+                print(cols)
+
+
 def main():
     # writing_to_text_files()
-    creating_and_modifying_paths()
+    # creating_and_modifying_paths()
     # parsing_text_files()
+    # file_with_random_text()
+    parse_gtf_file()
     return 0
 
 
