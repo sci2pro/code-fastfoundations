@@ -46,6 +46,12 @@ def navigating_files():
         print(f"{f.read() = }")
 
 
+def iterating_over_file_contents():
+    with open("think_different.txt") as f:
+        for row in f:
+            print(row.strip())
+
+
 def working_with_paths():
     import pathlib
     my_path = pathlib.Path(".")  # bash: the current directory
@@ -77,7 +83,7 @@ def testing_paths():
 
 def useful_path_operations():
     import pathlib
-    my_path = pathlib.Path("/Users/paulkorir/PycharmProjects/code-fastfoundations/day2/dir1/dir3/dir4/einstein.txt")
+    my_path = pathlib.Path("dir1/dir3/dir4/einstein.txt")
     with my_path.open() as f:
         print(f.read())
     my_path = pathlib.Path("~/PycharmProjects/code-fastfoundations/day2/dir1/dir3/dir4/einstein.txt")  # ~ = user dir
@@ -85,7 +91,7 @@ def useful_path_operations():
     #     print(f.read())
     with my_path.expanduser().open() as f:  # need to expand user first
         print(f.read())
-    my_path = pathlib.Path("/Users/paulkorir/PycharmProjects/code-fastfoundations/day2")
+    my_path = pathlib.Path(".")
     print(f"{my_path.glob('*') = }")  # globbing; just like on the bash terminal
     print(f"{'GLOBBING'}")
     for path_object in my_path.glob('*'):
@@ -98,6 +104,33 @@ def useful_path_operations():
         print(f"\t* {path_object.name:<30} ==> {path_object.parent}")
 
 
+def reading_wagata():
+    with open("wagata.txt", encoding='utf-32') as f:
+        print(f.read())
+
+
+def print_number_of_rows(filename, lines=10):
+    with open(filename) as f:
+        # slicing
+        lines_read = f.readlines()[:lines]
+        print(lines_read)
+        print(len(lines_read))
+
+
+def reading_socrates():
+    import pathlib
+    my_path = pathlib.Path("dir1/dir2/socrates.txt")
+    with my_path.open() as f:
+        print(f.read())
+
+
+def read_hidden():
+    import pathlib
+    my_path = pathlib.Path("~/")  # glob for all hidden files in user dir
+    for fn in my_path.expanduser().glob(".*"):
+        print(fn)
+
+
 def main():
     # opening_and_closing_files()
     # reading_file_contents()
@@ -105,7 +138,11 @@ def main():
     # navigating_files()
     # working_with_paths()
     # testing_paths()
-    useful_path_operations()
+    # useful_path_operations()
+    # reading_wagata()
+    # print_number_of_rows("paradoxical.txt", lines=100)
+    # reading_socrates()
+    read_hidden()
     return 0
 
 

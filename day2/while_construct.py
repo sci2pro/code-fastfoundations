@@ -28,10 +28,31 @@ def loop_over_file():
             print(f"{line = }")
 
 
+def reverse_while():
+    i = 9
+    while i > -1:  # i != 0, i >= 0
+        print(f"{i = }")
+        i -= 1  # i = i - 1
+
+
+def funny_sum():
+    i = -12
+    sum_ = 0
+    while True:
+        if sum_ > 1000:
+            sum -= i
+            break
+        i += 1
+        sum_ += i
+    print(f"{sum_ = }")
+
+
 def main():
     # plain_while()
     # complex_while()
-    loop_over_file()
+    # loop_over_file()
+    # reverse_while()
+    funny_sum()
     return 0
 
 
