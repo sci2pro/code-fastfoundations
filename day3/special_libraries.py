@@ -61,12 +61,31 @@ def using_stats():
     print(f"{statistics.mode(values) = }")
 
 
+def process_fao_data():
+    import csv
+    with open("FAOSTAT_data_7-23-2022.csv") as f:
+        # sniff the file to determine the dialect
+        dialect = csv.Sniffer().sniff(f.read(1024))
+        # we must rewind the file
+        f.seek(0)
+        # pass the dialect to the reader
+        fao_reader = csv.reader(f, dialect)
+        print(dir(fao_reader))  # display the methods and attributes (the directory) of the object
+        i = 0
+        for row in fao_reader:
+            if i > 10:
+                break
+            print(row)
+            i += 1
+
+
 def main():
     # using_math_library()
     # using_cmath_library()
     # using_datetime_library()
     # using_shuffle()
-    using_stats()
+    # using_stats()
+    process_fao_data()
     return 0
 
 
