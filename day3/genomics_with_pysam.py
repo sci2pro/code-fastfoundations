@@ -23,6 +23,7 @@ def pysam_read_bam_file():
         for read in bamfile.fetch("I", 1000, 2000):
             print(f"{read = }")  # https://pysam.readthedocs.io/en/latest/api.html#pysam.AlignedSegment
             print(f"{read.get_forward_sequence() = }")
+            print(f"{len(read.get_forward_sequence())}")
             print(f"{read.get_forward_qualities() = }")
             print(f"{read.get_reference_positions() = }")
 
@@ -43,7 +44,8 @@ def htseq_read_fastq():
     import itertools
     with HTSeq.FastqReader("genomics_workout/SRR20334685/SRR20334685.fastq") as fastq_file:
         for read in itertools.islice(fastq_file, 10):
-            print(f"{read = }") # https://htseq.readthedocs.io/en/master/refoverview.html
+            print(f"{read = }")  # https://htseq.readthedocs.io/en/master/refoverview.html
+            print(f"{read.qual = }")  # https://htseq.readthedocs.io/en/master/refoverview.html
 
 
 def main():
