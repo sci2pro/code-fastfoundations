@@ -160,6 +160,52 @@ def separate_by_gene_id():
             for row in rows:
                 f.write(row)  # each row still has the newlines at the end
 
+def get_exons_by_gene():
+    """Here we will use a dictionary to get all the exons associated with a particular gene
+    based on the gene/transcript ID. We will do this for gene but you can modify the function
+    to work for transcripts.
+
+    For each exon, we can add a column of the exon length then we can print the longest
+    exon for each gene.
+
+    Because the file is truncated most of the genes/transcripts will only have one exon. If you run
+    this with the full GTF file then you will get much more meaningful data.
+    """
+    import re
+    # first, we compile exons by gene
+    # to do this we need to be able to identify the gene id
+    exons_by_gene_id = dict()
+    with open("Homo_sapiens.GRCh38.107.shuffled_and_truncated.gtf") as f:
+        for row in f:
+            if not re.search(r"^\s*#", row): # only non-comments
+                cols = row.strip().split('\t')
+                # as before, we need to extract the gene_id from the last column
+                # the last column has subcolumns separated by '; ' (note: two characters)
+                subcols = cols[8].split('; ')
+                # again, because Ensembl IDs are fixed length we can use slicing of the string for the gene ID
+                gene_id = subcols[0][9:-1]
+                if cols[2] == 'exon': # now we only get exons
+                    start_pos = int(cols[3])
+                    end_pos = int(cols[4])
+                    if gene_id not in exons_by_gene_id:
+                        # we will collect the exons into a list of tuples
+                        # (length, row)
+                        exons_by_gene_id[gene_id] = [(end_pos - start_pos, row)]
+                    else:
+                        exons_by_gene_id[gene_id] += [(end_pos - start_pos, row)]
+    # now we can print the longest exons for each gene
+    for gene_id, exons in exons_by_gene_id.items(): # 'exons' is a list of exons
+        # this is how we can sort using sorted:
+        # the second argument to sorted is which field/attribute to sort by
+        # here we use a lambda to point to the length of the exon
+        # which is the first item in the tuple (length, row)
+        # we use reverse=True so that the longest is sorting is longest->shortest
+        sorted_exons = sorted(exons, key=lambda e: e[0], reverse=True)
+        # we can now get the longest: index 0
+        longest_exon = sorted_exons[0][1]
+        print(f"{gene_id}\t{longest_exon.strip()}")
+        # exercise: write this to a file
+
 
 def main():
     # writing_to_text_files()
@@ -168,7 +214,8 @@ def main():
     # file_with_random_text()
     # parse_gtf_file()
     # separate_by_chromosome()
-    separate_by_gene_id()
+    # separate_by_gene_id()
+    get_exons_by_gene()
     return 0
 
 
