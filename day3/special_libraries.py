@@ -1,5 +1,7 @@
 import sys
 
+import matplotlib.pyplot as plt
+
 
 def using_math_library():
     import math
@@ -64,6 +66,7 @@ def using_stats():
 def process_fao_data():
     import csv
     import statistics
+    import matplotlib.pyplot as plt
     ghana_data = dict()
     ivory_coast_data = dict()
     with open("FAOSTAT_data_7-23-2022.csv") as f:
@@ -120,6 +123,12 @@ def process_fao_data():
     print(f"2030 Ivory Coast production: {slope_ic * 2030 + intercept_ic:>20,.4f} tonnes")
     print(f"2030 Ghana production:       {slope_g * 2030 + intercept_g:>20,.4f} tonnes")
 
+    # plotting
+    fig, ax = plt.subplots()
+    ax.scatter(years, production_ghana)
+    fig2, ax2 = plt.subplots()
+    ax2.scatter(years, production_ivory_coast)
+    plt.show()
 
 def main():
     # using_math_library()

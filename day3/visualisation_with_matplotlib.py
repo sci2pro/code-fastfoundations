@@ -6,7 +6,9 @@ def plot_lines():
     import matplotlib.pyplot as plt
     import numpy as np
     x = np.linspace(0, 2 * np.pi, 200)
+    print(f"{x = }")
     y = np.sin(x)
+    print(f"{y = }")
     fig, ax = plt.subplots()
     ax.plot(x, y)
     plt.show()
@@ -28,7 +30,7 @@ def plot_barchart():
     x = [random.randint(10, 100) for _ in range(10)]
     y = list(string.ascii_uppercase[:10])
     fig, ax = plt.subplots()
-    ax.bar(x, y)
+    ax.bar( y, x)
     plt.show()
 
 
@@ -37,6 +39,7 @@ def plot_histogram():
     import random
     data = [random.gauss(0, 1) for _ in range(1000)]  # N(0, 1) normal
     fig, ax = plt.subplots()
+    # data and the number of bins
     n, bins, patches = ax.hist(data, 20, density=True)
     plt.show()
 
@@ -62,7 +65,7 @@ def plot_multiplots_and_export():
     axs[0].plot(x1, y1)
     axs[1].scatter(x2, y2)
     plt.show()
-    fig.savefig('plot_multiplot_and_export.png')
+    fig.savefig('plot_multiplot_and_export.pdf')
     plt.close(fig)
 
 
