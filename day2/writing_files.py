@@ -65,9 +65,100 @@ def parse_gtf_file():
     import re
     with open("Homo_sapiens.GRCh38.107.abinitio.gtf") as f:
         for row in f:
-            if not re.search("^\s*#", row):
+            if not re.search(r"^\s*#", row):  # use a regular expression
+                # also, simpler would be 'if row[0] != "#"' but this can by bypassed easily if a space is present
                 cols = row.strip().split("\t")
-                print(cols)
+                if cols[2] == 'exon':  # now filter only exons
+                    print(cols)
+
+
+def fixing_the_broken_code():
+    data = range(10)
+    with open("file.txt", 'w') as f:
+        for d in data:
+            f.write(str(d) + "\n")  # we should make d a string; we can't use the + operator between int and str
+
+
+def separate_by_chromosome():
+    """We need each chromosome to have its own file. The most straightforward solution is to collect the data into
+    individual lists then write them later. We can organise all our lists into a single dictionary of
+    chromosome to lists of lines like follows:
+
+    my_data = {
+        '1': [<rows for chromosome 1>],
+        '2': [<rows for chromosome 2>],
+        ...
+    }
+    """
+    import re
+    my_data = dict()
+    with open("Homo_sapiens.GRCh38.107.shuffled_and_truncated.gtf") as f:
+        for row in f:
+            if not re.search(r"^\s*#", row):
+                # first we get the columns using strip then split
+                cols = row.strip().split("\t")
+                # next we check if the chromosome is in the dictionary
+                # if it is not we make a new list with the row unchanged
+                # if it is then we append at the end of the existing list
+                if cols[0] not in my_data:  # col[0] is the chromosome
+                    my_data[cols[0]] = [row]  # keep the newlines so that we just write to file later
+                else:
+                    # .append() because my_data[cols[0]] is a list
+                    my_data[cols[0]].append(row)
+    # once we are done we can write to files
+    for chromosome, rows in my_data.items():  # the key is the name of the chromosome; values is the list of rows
+        # make a new filename with the chromosome as part of it
+        with open(f"Homo_sapiens.GRCh38.107.shuffled_and_truncated.{chromosome}.gtf", 'w') as f:
+            for row in rows:
+                f.write(row)  # each row still has the newlines at the end
+
+
+def separate_by_gene_id():
+    """Our code here will be more or less the same as in 'separate_by_chromosome' only that we now group in the
+    dictionary by 'gene_id' (same for 'transcript_id')
+
+    The main difference here is that we now have to do a second layer of processing to get the gene_id or
+    transcript_id.
+
+    The last column is special. Everything from 'gene_id' to the end is one column. The characters ';<space>' are
+    the sub-column delimiters.
+
+    Therefore, we need to split this again as follows:
+
+    subcols = cols[8].split('; ')
+    gene_str = subcols[0] # e.g. 'gene_id "ENSG00000130396"'
+
+    This has to be further split to get the actual gene id. Fortunately, Ensembl gene IDs have a fixed length so
+    we can extract this using a slice.
+
+    gene_id = gene_str[9:-1] # exclude the last '"' character
+
+    """
+    import re
+    my_data = dict()
+    with open("Homo_sapiens.GRCh38.107.shuffled_and_truncated.gtf") as f:
+        for row in f:
+            if not re.search(r"^\s*#", row):
+                # first we get the columns using strip then split
+                cols = row.strip().split("\t")
+                subcols = cols[8].split('; ')
+                gene_str = subcols[0]
+                gene_id = gene_str[9:-1]
+                print(gene_id)
+                # next we check if the gene_id is in the dictionary
+                # if it is not we make a new list with the row unchanged
+                # if it is then we append at the end of the existing list
+                if gene_id not in my_data:  # col[0] is the gene_id
+                    my_data[gene_id] = [row]  # keep the newlines so that we just write to file later
+                else:
+                    # .append() because my_data[cols[0]] is a list
+                    my_data[gene_id].append(row)
+    # once we are done we can write to files
+    for gene_id, rows in my_data.items():  # the key is the name of the gene_id; values is the list of rows
+        # make a new filename with the gene_id as part of it
+        with open(f"Homo_sapiens.GRCh38.107.shuffled_and_truncated.{gene_id}.gtf", 'w') as f:
+            for row in rows:
+                f.write(row)  # each row still has the newlines at the end
 
 
 def main():
@@ -75,7 +166,9 @@ def main():
     # creating_and_modifying_paths()
     # parsing_text_files()
     # file_with_random_text()
-    parse_gtf_file()
+    # parse_gtf_file()
+    # separate_by_chromosome()
+    separate_by_gene_id()
     return 0
 
 
