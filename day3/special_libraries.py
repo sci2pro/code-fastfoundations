@@ -63,20 +63,62 @@ def using_stats():
 
 def process_fao_data():
     import csv
+    import statistics
+    ghana_data = dict()
+    ivory_coast_data = dict()
     with open("FAOSTAT_data_7-23-2022.csv") as f:
-        # sniff the file to determine the dialect
-        dialect = csv.Sniffer().sniff(f.read(1024))
-        # we must rewind the file
-        f.seek(0)
-        # pass the dialect to the reader
-        fao_reader = csv.reader(f, dialect)
-        print(dir(fao_reader))  # display the methods and attributes (the directory) of the object
-        i = 0
-        for row in fao_reader:
-            if i > 10:
-                break
-            print(row)
-            i += 1
+        fao_reader = csv.reader(f)
+        for row in fao_reader:  # row is a list
+            data = row[11]
+            year = row[9]
+            field = row[5]
+            if row[3] == 'Ghana':
+                if year not in ghana_data:
+                    ghana_data[year] = dict()
+                # the dictionary now exists for this year
+                # ivory_coast_data[year][field] = data
+                if field == 'Area harvested':
+                    ghana_data[year]['Area harvested'] = data
+                elif field == 'Yield':
+                    ghana_data[year]['Yield'] = data
+                elif field == 'Production':
+                    ghana_data[year]['Production'] = data
+            elif row[3] == "Côte d'Ivoire":
+                if year not in ivory_coast_data:
+                    ivory_coast_data[year] = dict()
+                # the dictionary now exists for this year
+                # ivory_coast_data[year][field] = data
+                if field == 'Area harvested':
+                    ivory_coast_data[year]['Area harvested'] = data
+                elif field == 'Yield':
+                    ivory_coast_data[year]['Yield'] = data
+                elif field == 'Production':
+                    ivory_coast_data[year]['Production'] = data
+    # print(ivory_coast_data)
+    # print(ghana_data)
+    years = list()
+    production_ivory_coast = list()
+    with open('ivory_coast.txt', 'w') as f:
+        for year, data in ivory_coast_data.items():
+            print(f"{year}\t{data['Area harvested']}\t{data['Yield']}\t{data['Production']}", file=f)
+            years.append(int(year))
+            production_ivory_coast.append(int(data['Production']))
+
+    production_ghana = list()
+    with open('ghana.txt', 'w') as f:
+        for year, data in ghana_data.items():
+            print(f"{year}\t{data['Area harvested']}\t{data['Yield']}\t{data['Production']}", file=f)
+            production_ghana.append(int(data['Production']))
+
+    # linear regression
+    slope_ic, intercept_ic = statistics.linear_regression(years, production_ivory_coast)
+    slope_g, intercept_g = statistics.linear_regression(years, production_ghana)
+    print(f"Ivory Coast: production = {slope_ic}*year + {intercept_ic}")
+    print(f"Ghana      : production = {slope_g}* year  +  {intercept_g}")
+
+    # predictions
+    print(f"2030 Ivory Coast production: {slope_ic * 2030 + intercept_ic:>20,.4f} tonnes")
+    print(f"2030 Ghana production:       {slope_g * 2030 + intercept_g:>20,.4f} tonnes")
 
 
 def main():
