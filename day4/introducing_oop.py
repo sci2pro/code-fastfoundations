@@ -116,6 +116,9 @@ class Canvas(turtle.TurtleScreen):
     def draw(self, shape):
         shape.draw(self.pen)
 
+    def write(self, text):
+        text.write(self.pen)
+
     def mystery_method(self):
         self.pen.up()
         self.pen.goto(0, self.height / 2)
@@ -133,16 +136,51 @@ class Canvas(turtle.TurtleScreen):
 
 
 class Text:
-    def __init__(self, text, position=(0, 0), colour='black'):
+    def __init__(self, text, position=(0, 0), colour='black', move=False, align='left', font=('Arial', 8, 'normal')):
         self.text = text
         self.position = position
         self.colour = colour
+        self.move = move
+        self.align = align
+        self.font = font
+
+    def write(self, pen):
+        if pen.isdown():
+            pen.up()
+        pen.goto(*self.position)
+        pen.write(self.text, move=self.move, align=self.align, font=self.font)
+        pen.up()
 
     def __str__(self):
         return self.text
 
 
+def draw_something():
+    canvas = Canvas(1000, 700)
+    gquad = Rectangle(
+        200, 300, fill='#009a44', stroke='white', position=(-200, 0)
+    )
+    wquad = Rectangle(
+        200, 300, fill='white', stroke='#dddddd', position=(0, 0)
+    )
+    oquad = Rectangle(
+        200, 300, fill='#ff8200', stroke='white', position=(200, 0)
+    )
+    text = Text('IRELAND', position=(0, -250), align='center', font=('Arial', 60, 'bold'))
+    canvas.draw(gquad)
+    canvas.draw(wquad)
+    canvas.draw(oquad)
+    canvas.write(text)
+
+
 def main():
+    # draw_things()
+    draw_something()
+    turtle.done()
+    return 0
+
+
+def draw_things():
     rectangle = Rectangle(37, 40, position=(-15, -15))
     print(rectangle)
     square = Square(30)
@@ -152,14 +190,14 @@ def main():
     canvas = Canvas(1200, 750, bg="#555555")
     print(canvas)
     # canvas.mystery_method()
-    small_circle = Circle(30, fill='red', stroke='purple')
-    big_circle = Circle(100, position=(20, -10), fill='yellow', stroke='green')
-    canvas.draw(big_circle)
-    canvas.draw(small_circle)
-    rectangle = Rectangle(60, 28, position=(-15, -15), fill='grey', stroke='indigo')
-    canvas.draw(rectangle)
-    turtle.done()
-    return 0
+    # small_circle = Circle(30, fill='red', stroke='purple')
+    # big_circle = Circle(100, position=(20, -10), fill='yellow', stroke='green')
+    # canvas.draw(big_circle)
+    # canvas.draw(small_circle)
+    # rectangle = Rectangle(60, 28, position=(-15, -15), fill='grey', stroke='indigo')
+    # canvas.draw(rectangle)
+    text = Text("this is cool!", font=('Helvetica', 20, 'bold'), position=(-100, -100))
+    canvas.write(text)
 
 
 if __name__ == "__main__":
